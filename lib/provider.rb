@@ -9,10 +9,12 @@ class Provider < Sinatra::Base
 
   get '/provider.json', :provides => 'json' do
     valid_time = Time.parse(params[:valid_date])
+
     JSON.pretty_generate({
       :test => 'NO',
       :date => "2013-08-16T15:31:20+10:00",
-      :count => 1000
+      :count => 1000,
+      :authorized => request.env['HTTP_AUTHORIZATION'] ? "true" : "false"
     })
   end
 end

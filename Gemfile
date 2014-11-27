@@ -10,6 +10,5 @@ group :development, :test do
   gem 'pry'
   gem 'rspec'
   gem 'awesome_print'
-  gem 'debugger'
-  gem 'pact'
+  gem 'pact', :github => 'stefan-lz/pact', :branch => 'auth_tokens'
 end

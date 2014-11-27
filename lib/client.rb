@@ -8,7 +8,7 @@ class Client
   base_uri 'http://service-somewhere'
 
   def load_provider_json
-    response = self.class.get("/provider.json?valid_date=#{URI::encode(Time.now.httpdate)}")
+    response = self.class.get("/provider.json", { query: {valid_date: Time.now.httpdate} })
     if response.success?
       JSON.parse(response.body)
     end

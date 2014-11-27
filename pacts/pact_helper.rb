@@ -8,6 +8,11 @@ end
 
 Pact.provider_states_for "My Service Consumer" do
   provider_state "provider is in a sane state" do
-    no_op
+
+    set_up do
+      interaction.request.instance_eval('@headers = {}')
+      interaction.request.headers['Authorization'] = 'some dynamic token'
+    end
+
   end
 end

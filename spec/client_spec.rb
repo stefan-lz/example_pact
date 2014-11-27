@@ -17,13 +17,15 @@ describe Client, :pact => true do
 
   before do
     Client.base_uri 'localhost:8081'
+    Client.debug_output
   end
 
   let(:json_data) do
     {
-      "test"  => "NO",
-      "date"  => "2013-08-16T15:31:20+10:00",
-      "count" => 1000
+      "test"       => "NO",
+      "date"       => "2013-08-16T15:31:20+10:00",
+      "count"      => 1000,
+      "authorized" => "true"
     }
   end
   let(:response) { double('Response', :success? => true, :body => json_data.to_json) }
@@ -38,12 +40,13 @@ describe Client, :pact => true do
     let(:date) { Time.now.httpdate }
 
     before do
+      require 'erb'
       my_service_provider.given("provider is in a sane state").
         upon_receiving("a request for provider json").
           with(
             method: :get,
             path:   '/provider.json',
-            query:  URI::encode('valid_date=' + date)
+            query:  'valid_date=' + ERB::Util.url_encode(date)
           ).
           will_respond_with(
             status:  200,
